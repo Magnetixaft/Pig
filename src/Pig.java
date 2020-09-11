@@ -41,26 +41,30 @@ public class Pig {
     public int diceResult() {
         return rand.nextInt(6) + 1;
     }
+
     // Return length of playerList
     public int numPlayers() {
         return playerList.size() - 1;
     }
+
     // Assigns a random Player to Player current
     public void startingPlayer() {
         // Gets Player with randomized index, needs numPlayers() to get last index of playerList
         current = playerList.get(rand.nextInt(numPlayers()));
     }
+
     // Assigns a new Player to Player current
     public void nextPlayer() {
         // If Player current is the last index of playerList, Player current becomes Player with index 0
         if (playerList.indexOf(current) == numPlayers()) {
             current = playerList.get(0);
-        // Assigns Player current to Player in playerList with index+1, next Player in playerList
+            // Assigns Player current to Player in playerList with index+1, next Player in playerList
         } else {
             current = playerList.get(playerList.indexOf(current) + 1);
         }
 
     }
+
     // Player current rolls the dice
     public void roll() {
         // Assigns value of diceResult() to int diceThrow
@@ -77,8 +81,10 @@ public class Pig {
 
     public void next() {
         // Adds roundPts to totalPts, so the Player saves their points
-        current.totalPts = current.roundPts;
+        current.totalPts = current.totalPts + current.roundPts;
+        current.roundPts = 0;
     }
+
     // Takes input and decides which actions to take
     public void choicePlayer(String choiceInput) {
         if (choiceInput.equals("r")) {
@@ -121,6 +127,7 @@ public class Pig {
         out.println("Commands are: r = roll , n = next, q = quit");
         out.println();
     }
+
     // Asks how many players are playing
     void numPlayersMsg() {
         out.println("How many players? ");
@@ -151,18 +158,17 @@ public class Pig {
         for (Player player : playerList) {
             out.print(player.name + " = " + player.totalPts + " ");
         }
-        out.println();
     }
 
     void roundMsg(int result, Player current) {
         // Diplays result of round
         if (result > 1) {
-            out.println("Got " + result + " running total are " + current.roundPts);
-        // Player current loses all roundPts and selects next player as Player current
+            out.println("Got " + result + " running total is " + current.roundPts);
+            // Player current loses all roundPts and selects next player as Player current
         } else {
             current.roundPts = 0;
-            nextPlayer();
             out.println("Got 1 lost it all!");
+            nextPlayer();
         }
     }
 
